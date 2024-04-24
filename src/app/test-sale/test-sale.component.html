@@ -1,0 +1,69 @@
+<div class="container px-3">
+    <div class="grid grid-cols-4">
+        <div>
+            <label for="cars" class="block mb-2 text-sm font-large text-gray-900">
+                Choose Client:
+            </label>
+            <select name="cars" id="cars" formControlName="selectedClient"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="0">Select client</option>
+                @for (item of clients | async; track $index) {
+                <option [value]="item.id">{{item.name}}</option>
+                }
+            </select>
+        </div>
+        <div class="col-start-4 col-span-1 flex justify-end align-middle">
+            <button (click)="sendCart(selectedProducts, selectedClient.value)"
+                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Comprar
+            </button>
+        </div>
+    </div>
+    <br>
+    <div class="flex flex-row">
+        <div class="basis-5/6">
+            <div class="grid grid-cols-6 gap-5">
+                @for (item of products | async; track $index) {
+                <div
+                    class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <span class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        {{item.name}}
+                    </span>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">${{item.price}}</p>
+                    <div class="flex align-middle justify-end">
+                        <button (click)="addItemToCart(item)"
+                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Agregar +
+                        </button>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        <div class="basis-1/6 px-3">
+            <span class="text-center text-xl font-bold">Carrito</span>
+            @for (item of selectedProducts; track $index) {
+            <div class="max-w-ms p-6 border border-gray-700 rounded-xl flex flex-row">
+                <h5 class="mb-1 text-xl font-medium text-gray-900 basis-5/6">{{item.name}} &times; {{item.count}} </h5>
+                <button (click)="deleteItem(item)" class=" basis-1/6 rounded-md bg-red-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="44"
+                        height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M4 7l16 0" />
+                        <path d="M10 11l0 6" />
+                        <path d="M14 11l0 6" />
+                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                    </svg>
+                </button>
+            </div>
+            }
+            @if (totalCount > 0) {
+            <div class="max-w-ms p-6 border border-gray-700 rounded-xl">
+                <h5 class="mb-1 text-xl font-medium text-gray-900"> Total = {{totalCount}}</h5>
+            </div>
+            }
+        </div>
+    </div>
+</div>
