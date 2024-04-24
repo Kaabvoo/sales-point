@@ -52,5 +52,6 @@ export class ClientsComponent {
 
   edit(client: IClient) {
     this.cS.patchClient(client).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());
+    return;
   }
 }

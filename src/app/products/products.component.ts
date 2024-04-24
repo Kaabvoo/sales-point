@@ -58,5 +58,6 @@ export class ProductsComponent {
 
   edit(product: IProduct) {
     this.cS.patchProduct(product).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());
+    return;
   }
 }
