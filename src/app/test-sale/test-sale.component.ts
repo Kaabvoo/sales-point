@@ -62,7 +62,7 @@ export class TestSaleComponent {
     if (clientId === null)
       return;
     var sale = <ICreateSale>{
-      customerId: + clientId,
+      clientId: + clientId,
       products: cart
     }
     this.sS.postProducts(sale).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());

@@ -1,5 +1,5 @@
 export interface ICreateSale {
-    customerId: number;
+    clientId: number;
     products: IProductCount[];
 }
 
