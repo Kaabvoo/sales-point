@@ -59,8 +59,10 @@ export class TestSaleComponent {
     this.totalCount = this.selectedProducts.map(x => x.amount).reduce((p, c) => p + c);
   }
   sendCart(cart: IProductCount[], clientId: number | null) {
+    if (clientId === null)
+      return;
     var sale = <ICreateSale>{
-      customerId: clientId,
+      customerId: + clientId,
       products: cart
     }
     this.sS.postProducts(sale).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());
