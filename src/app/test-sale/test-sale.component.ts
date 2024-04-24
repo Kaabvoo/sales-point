@@ -35,15 +35,7 @@ export class TestSaleComponent {
     private sS: SaleService) {
     this.totalCount = 0;
     this.clients = cS.getClients();
-    // this.products = pS.getProducts();
-    this.products = of([
-      { id: 1, name: 'papas', price: 10 },
-      { id: 2, name: 'elotes', price: 20 },
-      { id: 3, name: 'pan', price: 30 },
-      { id: 4, name: 'soda', price: 40 },
-      { id: 5, name: 'lapiz', price: 50 },
-      { id: 6, name: 'papel', price: 60 },
-    ]);
+    this.products = pS.getProducts();
     this.selectedProducts = [];
   }
   addItemToCart(prod: IProduct) {
