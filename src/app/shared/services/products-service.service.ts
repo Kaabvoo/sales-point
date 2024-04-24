@@ -11,6 +11,8 @@ export class ProductsServiceService {
 
   host: string;
 
+  itExist = (a: any) => a !== null && a !== undefined;
+
   constructor(private http: HttpClient) {
     this.host = environment.envHost + 'Products';
   }
@@ -24,8 +26,11 @@ export class ProductsServiceService {
   public postProducts(product: IProduct): Observable<IProduct> {
     return this.http.post<IProduct>(this.host, product);
   }
-  public patchProduct(product: IProduct): Observable<IProduct> {
-    return this.http.patch<IProduct>(this.host, product, { params: new HttpParams().set("id", product.id) });
+  public patchProduct(product: IProduct): Observable<IProduct | null> {
+    if (product?.id !== undefined && product?.id !== null)
+      return this.http.patch<IProduct>(this.host, product, { params: new HttpParams().set("id", product.id) });
+    else
+      return new Observable<null>;
   }
   public deleteProduct(id: number) {
     return this.http.delete(this.host, { params: new HttpParams().set("id", id) })

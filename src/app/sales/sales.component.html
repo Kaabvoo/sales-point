@@ -1,1 +1,63 @@
-<p>sales works!</p>
+<div class="container">
+
+    <div class="grid grid-cols-2 gap-3 px-3">
+        <div>
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Id
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Amount
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of sales | async; track $index) {
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" (click)="selectedRow(item)">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{item.clientId}}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{item.total}}
+                        </td>
+                        <td class="flex align-middle justify-end">
+                            <button class="rounded-sm bg-transparent">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="icon icon-tabler icon-tabler-arrow-big-right-filled" width="44" height="44"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path
+                                        d="M12.089 3.634a2 2 0 0 0 -1.089 1.78l-.001 2.586h-6.999a2 2 0 0 0 -2 2v4l.005 .15a2 2 0 0 0 1.995 1.85l6.999 -.001l.001 2.587a2 2 0 0 0 3.414 1.414l6.586 -6.586a2 2 0 0 0 0 -2.828l-6.586 -6.586a2 2 0 0 0 -2.18 -.434l-.145 .068z"
+                                        stroke-width="0" fill="currentColor" />
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div>
+            @if (selectedSaleDetails !== undefined) {
+            <div
+                class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <h3 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Client ID:
+                    {{selectedSaleDetails.client.name}}</h3>
+                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Paid: {{selectedSaleDetails.total}}
+                </p>
+                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Details:</h5>
+                @for (item of selectedSaleDetails.details; track $index) {
+                <span> {{item.product.name}} &times; {{item.quantity}} &equals; {{item.subtotal}} </span>
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+</div>

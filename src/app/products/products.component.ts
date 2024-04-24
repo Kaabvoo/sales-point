@@ -24,7 +24,16 @@ export class ProductsComponent {
 
   products: Observable<IProduct[]>;
 
+  showEdit: boolean;
+
+  productEdit = new FormGroup({
+    id: new FormControl(0, Validators.nullValidator),
+    name: new FormControl('', Validators.nullValidator),
+    price: new FormControl(0, [Validators.required, Validators.min(1)])
+  });
+
   constructor(private cS: ProductsServiceService) {
+    this.showEdit = false;
     this.products = cS.getProducts();
   }
 
@@ -34,7 +43,17 @@ export class ProductsComponent {
     return;
   }
 
-  delete(id: number) {
-    this.cS.deleteProduct(id).pipe(takeUntilDestroyed()).subscribe();
+  delete(id?: number | null) {
+    if (!(id !== null || id !== undefined) && id > 0)
+      this.cS.deleteProduct(id).pipe(takeUntilDestroyed()).subscribe();
+  }
+
+  selectToEdit(product: IProduct) {
+    this.showEdit = true
+    this.productEdit.patchValue(product);
+  }
+
+  edit(product: IProduct) {
+    this.cS.patchProduct(product).pipe(takeUntilDestroyed()).subscribe();
   }
 }

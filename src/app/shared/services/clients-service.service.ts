@@ -24,8 +24,11 @@ export class ClientsServiceService {
   public postClients(client: IClient): Observable<IClient> {
     return this.http.post<IClient>(this.host, client);
   }
-  public patchClient(client: IClient): Observable<IClient> {
-    return this.http.patch<IClient>(this.host, client, { params: new HttpParams().set("id", client.id) });
+  public patchClient(client: IClient): Observable<IClient | null> {
+    if (client?.id !== undefined && client?.id !== null)
+      return this.http.patch<IClient>(this.host, client, { params: new HttpParams().set("id", client.id) });
+    else
+      return new Observable<null>;
   }
   public deleteClient(id: number) {
     return this.http.delete(this.host, { params: new HttpParams().set("id", id) })
