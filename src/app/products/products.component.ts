@@ -41,13 +41,14 @@ export class ProductsComponent {
 
   submit(group: Partial<{ name: string | null, price: number | null } | null>) {
     if (!this.isNullOrEmpty(group?.name) && (group?.price !== undefined && group.price !== null && group?.price > 1))
-      this.cS.postProducts(<any>group).pipe(takeUntilDestroyed(this.dR)).subscribe();
+      this.cS.postProducts(<any>group).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());
     return;
   }
 
   delete(id?: number | null) {
-    if (!(id !== null || id !== undefined) && id > 0)
-      this.cS.deleteProduct(id).pipe(takeUntilDestroyed(this.dR)).subscribe();
+    if (id !== null && id !== undefined && id > 0)
+      this.cS.deleteProduct(id).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());
+    return;
   }
 
   selectToEdit(product: IProduct) {
@@ -56,6 +57,6 @@ export class ProductsComponent {
   }
 
   edit(product: IProduct) {
-    this.cS.patchProduct(product).pipe(takeUntilDestroyed(this.dR)).subscribe();
+    this.cS.patchProduct(product).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());
   }
 }

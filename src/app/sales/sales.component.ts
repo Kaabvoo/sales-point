@@ -24,6 +24,7 @@ export class SalesComponent {
 
   selectedRow(selected: ISales) {
     this.selectedSaleDetails = selected;
+    return;
   }
 
 }

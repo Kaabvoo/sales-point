@@ -36,13 +36,13 @@ export class ClientsComponent {
 
   submit(name: string | null) {
     if (!this.isNullOrEmpty(name))
-      this.cS.postClients(<any>name).pipe(takeUntilDestroyed(this.dR)).subscribe();
+      this.cS.postClients(<IClient>{ name: name }).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());
     return;
   }
 
   delete(id?: number | null) {
     if (!(id !== null || id !== undefined) && id > 0)
-      this.cS.deleteClient(id).pipe(takeUntilDestroyed(this.dR)).subscribe();
+      this.cS.deleteClient(id).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());
   }
 
   selectToEdit(client: IClient) {
@@ -51,6 +51,6 @@ export class ClientsComponent {
   }
 
   edit(client: IClient) {
-    this.cS.patchClient(client).pipe(takeUntilDestroyed(this.dR)).subscribe();
+    this.cS.patchClient(client).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());
   }
 }

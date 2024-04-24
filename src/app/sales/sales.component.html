@@ -9,19 +9,23 @@
                             Id
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Amount
+                            Client
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Acciones
+                            Amount
                         </th>
+                        <th scope="col" class="px-6 py-3"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @for (item of sales | async; track $index) {
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" (click)="selectedRow(item)">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
                             {{item.clientId}}
                         </th>
+                        <td class="px-6 py-4">
+                            {{item.client.name}}
+                        </td>
                         <td class="px-6 py-4">
                             {{item.total}}
                         </td>
@@ -46,15 +50,23 @@
         <div>
             @if (selectedSaleDetails !== undefined) {
             <div
-                class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <h3 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Client ID:
-                    {{selectedSaleDetails.client.name}}</h3>
-                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Paid: {{selectedSaleDetails.total}}
-                </p>
+                class="max-w-sm p-6 bg-white border text-white border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <h3 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    Client:
+                    {{selectedSaleDetails.client.name}}
+                </h3>
                 <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Details:</h5>
                 @for (item of selectedSaleDetails.details; track $index) {
-                <span> {{item.product.name}} &times; {{item.quantity}} &equals; {{item.subtotal}} </span>
+                <div class="flex justify-around align-middle">
+                    <span class="text-gray-400 block"> {{item.product.name}} &times; {{item.quantity}} &equals;</span>
+                    <span class="text-gray-400 block"> {{item.subtotal}} </span>
+                </div>
                 }
+                <hr class="text-white">
+                <div class="flex justify-around align-middle">
+                    <span class="text-gray-400 block"> TOTAL &equals;</span>
+                    <span class="text-gray-400 block"> {{selectedSaleDetails.total}} </span>
+                </div>
             </div>
             }
         </div>
