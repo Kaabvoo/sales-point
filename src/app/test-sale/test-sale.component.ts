@@ -1,7 +1,7 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { IClient } from '../shared/interfaces/client';
 import { IProductCount } from '../shared/interfaces/create-sale';
@@ -14,7 +14,7 @@ import { ICreateSale } from './../shared/interfaces/create-sale';
 @Component({
   selector: 'app-test-sale',
   standalone: true,
-  imports: [AsyncPipe, JsonPipe],
+  imports: [AsyncPipe, JsonPipe, ReactiveFormsModule],
   templateUrl: './test-sale.component.html',
   styleUrl: './test-sale.component.scss'
 })
