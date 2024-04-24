@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IClient } from '../interfaces/client';
 import { environment } from "../../../../env.config";
@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 export class ClientsServiceService {
 
   host: string;
+  
+    httpH = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) {
     this.host = environment.envHost + 'Clients';
@@ -22,11 +24,11 @@ export class ClientsServiceService {
     return this.http.get<IClient[]>(`${this.host}/${id}`);
   }
   public postClients(client: IClient): Observable<IClient> {
-    return this.http.post<IClient>(this.host, client);
+    return this.http.post<IClient>(this.host, client, {headers: this.httpH});
   }
   public patchClient(client: IClient): Observable<IClient | null> {
     if (client?.id !== undefined && client?.id !== null)
-      return this.http.patch<IClient>(this.host, client, { params: new HttpParams().set("id", client.id) });
+      return this.http.patch<IClient>(this.host, client, { params: new HttpParams().set("id", client.id), headers: this.httpH  });
     else
       return new Observable<null>;
   }
