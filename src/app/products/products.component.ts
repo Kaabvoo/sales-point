@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { IProduct } from '../shared/interfaces/product';
@@ -16,6 +16,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class ProductsComponent {
 
   isNullOrEmpty = (a: string | null | undefined) => a === null || a === undefined || a.length < 1;
+
+  dR = inject(DestroyRef);
 
   groupInput = new FormGroup({
     name: new FormControl('', [Validators.nullValidator, Validators.required]),
@@ -39,13 +41,13 @@ export class ProductsComponent {
 
   submit(group: Partial<{ name: string | null, price: number | null } | null>) {
     if (!this.isNullOrEmpty(group?.name) && (group?.price !== undefined && group.price !== null && group?.price > 1))
-      this.cS.postProducts(<any>group).pipe(takeUntilDestroyed()).subscribe();
+      this.cS.postProducts(<any>group).pipe(takeUntilDestroyed(this.dR)).subscribe();
     return;
   }
 
   delete(id?: number | null) {
     if (!(id !== null || id !== undefined) && id > 0)
-      this.cS.deleteProduct(id).pipe(takeUntilDestroyed()).subscribe();
+      this.cS.deleteProduct(id).pipe(takeUntilDestroyed(this.dR)).subscribe();
   }
 
   selectToEdit(product: IProduct) {
@@ -54,6 +56,6 @@ export class ProductsComponent {
   }
 
   edit(product: IProduct) {
-    this.cS.patchProduct(product).pipe(takeUntilDestroyed()).subscribe();
+    this.cS.patchProduct(product).pipe(takeUntilDestroyed(this.dR)).subscribe();
   }
 }

@@ -1,5 +1,5 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -25,6 +25,8 @@ export class TestSaleComponent {
 
   selectedProducts: IProductCount[];
   totalCount: number;
+
+  dR = inject(DestroyRef);
 
   selectedClient = new FormControl(0);
 
@@ -69,7 +71,7 @@ export class TestSaleComponent {
       customerId: clientId,
       products: cart
     }
-    this.sS.postProducts(sale).pipe(takeUntilDestroyed()).subscribe(x => location.reload());
+    this.sS.postProducts(sale).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());
   }
   deleteItem(del: IProductCount) {
     this.selectedProducts.splice(this.selectedProducts.findIndex(x => x.productId === del.productId), 1);

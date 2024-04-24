@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -21,6 +21,8 @@ export class ClientsComponent {
 
   inputName = new FormControl('', [Validators.required, Validators.nullValidator]);
 
+  dR = inject(DestroyRef);
+
   showEdit: boolean;
   clientEdit = new FormGroup({
     id: new FormControl(0, Validators.nullValidator),
@@ -34,13 +36,13 @@ export class ClientsComponent {
 
   submit(name: string | null) {
     if (!this.isNullOrEmpty(name))
-      this.cS.postClients(<any>name).pipe(takeUntilDestroyed()).subscribe();
+      this.cS.postClients(<any>name).pipe(takeUntilDestroyed(this.dR)).subscribe();
     return;
   }
 
   delete(id?: number | null) {
     if (!(id !== null || id !== undefined) && id > 0)
-      this.cS.deleteClient(id).pipe(takeUntilDestroyed()).subscribe();
+      this.cS.deleteClient(id).pipe(takeUntilDestroyed(this.dR)).subscribe();
   }
 
   selectToEdit(client: IClient) {
@@ -49,6 +51,6 @@ export class ClientsComponent {
   }
 
   edit(client: IClient) {
-    this.cS.patchClient(client).pipe(takeUntilDestroyed()).subscribe();
+    this.cS.patchClient(client).pipe(takeUntilDestroyed(this.dR)).subscribe();
   }
 }
