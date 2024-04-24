@@ -41,7 +41,7 @@ export class ClientsComponent {
   }
 
   delete(id?: number | null) {
-    if (!(id !== null || id !== undefined) && id > 0)
+    if (id !== null && id !== undefined && id > 0)
       this.cS.deleteClient(id).pipe(takeUntilDestroyed(this.dR)).subscribe(x => location.reload());
   }
 
